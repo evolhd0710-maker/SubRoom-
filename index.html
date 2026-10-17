@@ -161,9 +161,8 @@ body.playing main{max-width:none;padding:0}
 .slot.upper{text-align:left;padding-right:6%}
 .slot.lower{text-align:right;padding-left:6%}
 .lyr{position:relative;display:inline-block}
-.lyr .base,.lyr .fill{-webkit-text-stroke:.08em var(--outline);paint-order:stroke fill;white-space:nowrap}
+.lyr .base{-webkit-text-stroke:.08em var(--outline);paint-order:stroke fill;white-space:nowrap}
 .lyr .base{color:#fff}
-.lyr .fill{position:absolute;left:0;top:0;color:var(--wipe);clip-path:inset(-20% calc(100% - var(--p,0%)) -20% -5%)}
 .overlay{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:10px;text-align:center;padding:24px;pointer-events:none}
 .overlay.interact{pointer-events:auto}
 .tc-no{font-family:var(--f-mono);color:var(--warn);letter-spacing:.2em;font-size:clamp(14px,2vw,20px)}
@@ -808,8 +807,8 @@ async function viewPlay(id) {
       <p class="hint err" id="perr" role="alert" style="text-align:center"></p>
       <div class="stage" id="stage">
         <div class="dots" id="dots" hidden><i></i><i></i><i></i><i></i></div>
-        <div class="slot upper" id="s0"><span class="lyr"><span class="base"></span><span class="fill" aria-hidden="true"></span></span></div>
-        <div class="slot lower" id="s1"><span class="lyr"><span class="base"></span><span class="fill" aria-hidden="true"></span></span></div>
+        <div class="slot upper" id="s0"><span class="lyr"><span class="base"></span></span></div>
+        <div class="slot lower" id="s1"><span class="lyr"><span class="base"></span></span></div>
         <div class="overlay" id="tc">
           <div class="tc-no">No. ${songNo(song.id)}</div>
           <div class="tc-title">${esc(song.title)}</div>
@@ -861,7 +860,7 @@ async function viewPlay(id) {
   });
 
   /* 두 줄 노래방 표시: i번 줄은 i%2 자리(위/아래)에 표시 */
-  const slots = [$('#s0'), $('#s1')].map(el => ({ el, base: el.querySelector('.base'), fill: el.querySelector('.fill'), idx: -2 }));
+  const slots = [$('#s0'), $('#s1')].map(el => ({ el, base: el.querySelector('.base'), idx: -2 }));
   function fit(slot) {
     slot.el.style.fontSize = '';
     const lyr = slot.el.firstElementChild, max = slot.el.clientWidth - parseFloat(getComputedStyle(slot.el).paddingLeft) - parseFloat(getComputedStyle(slot.el).paddingRight);
@@ -875,8 +874,7 @@ async function viewPlay(id) {
     if (slot.idx === i) return;
     slot.idx = i;
     const text = i >= 0 && i < L.length ? L[i].text : '';
-    slot.base.textContent = text; slot.fill.textContent = text;
-    slot.el.style.setProperty('--p', '0%');
+    slot.base.textContent = text;
     fit(slot);
   }
   const lastEnd = ends[ends.length - 1];
@@ -910,8 +908,6 @@ async function viewPlay(id) {
       if (i < 0) continue;
       const slot = slots[i % 2];
       setSlot(slot, i);
-      const p = clamp((t - L[i].t) / (ends[i] - L[i].t), 0, 1);
-      slot.el.style.setProperty('--p', (p * 100).toFixed(2) + '%');
     }
     if (pair[1] < 0) setSlot(slots[(pivot + 1) % 2], -1);
   });
