@@ -142,7 +142,7 @@ summary{cursor:pointer;font-size:13px;color:var(--dim)}
 .confirm span{flex:1;min-width:180px;font-size:14px}
 
 /* 부르기 화면 */
-body.playing .top,body.playing .modebar{display:none}
+body.playing header.top,body.playing .modebar{display:none}
 body.playing main{max-width:none;padding:0}
 .play{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
 .play-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding-block:calc(8px + env(safe-area-inset-top,0px)) 8px;
@@ -158,8 +158,8 @@ body.playing main{max-width:none;padding:0}
   padding-block:40px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
   background:linear-gradient(180deg,transparent 0%,color-mix(in srgb,var(--wipe) 7%,transparent) 50%,transparent 100%)}
 .slot{font-family:var(--f-display);font-size:clamp(28px,7vw,92px);line-height:1.25;white-space:nowrap;min-height:1.25em;overflow:hidden}
-.slot.top{text-align:left;padding-right:6%}
-.slot.bot{text-align:right;padding-left:6%}
+.slot.upper{text-align:left;padding-right:6%}
+.slot.lower{text-align:right;padding-left:6%}
 .lyr{position:relative;display:inline-block}
 .lyr .base,.lyr .fill{-webkit-text-stroke:.08em var(--outline);paint-order:stroke fill;white-space:nowrap}
 .lyr .base{color:#fff}
@@ -808,8 +808,8 @@ async function viewPlay(id) {
       <p class="hint err" id="perr" role="alert" style="text-align:center"></p>
       <div class="stage" id="stage">
         <div class="dots" id="dots" hidden><i></i><i></i><i></i><i></i></div>
-        <div class="slot top" id="s0"><span class="lyr"><span class="base"></span><span class="fill" aria-hidden="true"></span></span></div>
-        <div class="slot bot" id="s1"><span class="lyr"><span class="base"></span><span class="fill" aria-hidden="true"></span></span></div>
+        <div class="slot upper" id="s0"><span class="lyr"><span class="base"></span><span class="fill" aria-hidden="true"></span></span></div>
+        <div class="slot lower" id="s1"><span class="lyr"><span class="base"></span><span class="fill" aria-hidden="true"></span></span></div>
         <div class="overlay" id="tc">
           <div class="tc-no">No. ${songNo(song.id)}</div>
           <div class="tc-title">${esc(song.title)}</div>
